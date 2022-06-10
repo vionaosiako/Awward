@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
 from .forms import  CreateUserForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 # Create your views here.
 def registerPage(request):
     form =  CreateUserForm()
@@ -12,6 +12,8 @@ def registerPage(request):
         form= CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was created for ' + user)
             return redirect('loginPage')
     return render(request, 'auth/register.html', contex)
 
