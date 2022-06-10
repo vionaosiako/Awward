@@ -1,6 +1,6 @@
 .banner{
     background-image: url('/static/images/banner.jpg');
-    height: 100vh;
+    height: 50vh;
     background-size: cover;
     background-repeat: no-repeat;
 }
