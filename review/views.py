@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
 from .forms import  CreateUserForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def registerPage(request):
@@ -31,6 +32,7 @@ def logoutUser(request):
 	logout(request)
 	return redirect('loginPage')
 
+@login_required(login_url='loginPage')
 def index(request):
     context={}
     return render(request, 'index.html',context)
