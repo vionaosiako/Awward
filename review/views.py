@@ -27,6 +27,9 @@ def loginPage(request):
             messages.info(request, 'Username OR password is incorrect')
     contex = {}
     return render(request, 'auth/login.html', contex)
+def logoutUser(request):
+	logout(request)
+	return redirect('loginPage')
 
 def index(request):
     context={}
