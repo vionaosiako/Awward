@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{% block content %}
+{{block.super}}
+
+
+<div class="row">
+    <div class="col-md-8" style="display: flex; justify-content: center;">
+        <div class="row">
+            {% if profile %}
+                <div class="col-lg-6">
+                    <div class="card">
+                        <img class="card-img-top thumbnail" src="{{ profile.profile_pic.url}}" alt="Card image cap" style="width: 100%; height: 40vh;">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card-body">
+                        <div style="display: flex; justify-content: space-between;">
+                            <p><b>{{user.username}}</b></p>
+                            <a href="{% url 'profileUpdates' %}" class="btn btn-outline-secondary">Edit Profile</a>
+                            <p><img src="https://cdn3.iconfinder.com/data/icons/user-interface-798/32/User_interface_setting_gear_interface_ui_multimedia-128.png" alt="" style="viewBox="0 0 24 24"; width="30";" alt=""></p>
+                        </div>
+                        <div style="display: flex; justify-content:space-between;">
+                            <div>
+                                <p>{{images.count}}Post</p>
+                            </div>
+                            <div>
+                                <p>followers</p>
+                            </div>
+                            <div>
+                                <p>following</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p><b>{{profile.fullname}}</b></p>
+                            <p>{{profile.bio}}</p>
+                        </div>                        
+                    </div>
+                </div>
+                <div>
+                    {%for image in images%}
+                    <li class="list-group-item" ><img src="{{image.image.url}}" alt="" style="width: 100%;"></li>
+                        <img src="{{ posts.image.url}}" alt="">
+                    {%endfor%}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

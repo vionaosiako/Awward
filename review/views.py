@@ -1,9 +1,11 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
-from .forms import  CreateUserForm
+from .forms import  CreateUserForm,ProfileForm
+from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 # Create your views here.
 def registerPage(request):
     form =  CreateUserForm()
@@ -13,8 +15,8 @@ def registerPage(request):
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
-            return redirect('loginPage')
+            # messages.success(request, 'Account was created for ' + user)
+            return redirect('profileUpdates')
     return render(request, 'auth/register.html', contex)
 
 def loginPage(request):
@@ -33,6 +35,28 @@ def loginPage(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('loginPage')
+
+@login_required(login_url='loginPage')
+def profileUpdates(request):
+    current_user=request.user
+    profile = Profile.objects.filter(id=current_user.id).first()
+    if request.method == 'POST':
+        profileform = ProfileForm(request.POST,request.FILES,instance=profile)
+        if  profileform.is_valid:
+            profileform.save(commit=False)
+            profileform.user=request.user
+            profileform.save()
+            return redirect('index')
+    else:
+        form=ProfileForm(instance=profile)
+    return render(request,'addProfile.html',{'form':form})
+
+@login_required(login_url='loginPage')
+def profilePage(request,user_id):
+        profile=Profile.objects.get(id=user_id)
+        # images = request.user.profile.images.all()
+        contex = {'profile':profile}
+        return render(request, 'profile.html', contex)
 
 @login_required(login_url='loginPage')
 def index(request):

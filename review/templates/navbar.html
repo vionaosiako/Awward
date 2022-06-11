@@ -10,7 +10,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#aboutUs">About Us</a>
+                    <a class="nav-link" href="{% url 'profilePage' user.id %}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Projects</a>
@@ -19,10 +19,10 @@
                     <a class="nav-link" href="#">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign In</a>
+                    <a class="nav-link" href="{% url 'loginPage' %}">Sign In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Sign Out</a>
+                    <a class="nav-link" href="{% url 'logoutUser' %}">Sign Out</a>
                 </li>
             </ul>
             <form class="d-flex">
