@@ -3,8 +3,6 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-# router = routers.DefaultRouter()
-# router.register('profile',views.ProfileViewSet)
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -14,6 +12,6 @@ urlpatterns = [
     path('profilePage/<int:user_id>', views.profilePage, name='profilePage'),
     path('profileUpdates', views.profileUpdates, name='profileUpdates'),
     path('profile', views.profile_list),
-    # path('api', include(router.urls))
+    
     
 ]
