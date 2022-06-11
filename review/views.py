@@ -6,6 +6,14 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+
+from django.http import JsonResponse
+from .serializers import ProfileSerializer
+from rest_framework.decorators import api_view
+from rest_framework .response import Response
+from rest_framework import status
+from rest_framework import viewsets
+
 # Create your views here.
 def registerPage(request):
     form =  CreateUserForm()
@@ -62,3 +70,21 @@ def profilePage(request,user_id):
 def index(request):
     context={}
     return render(request, 'index.html',context)
+
+# @api_view (['GET','POST'])
+def profile_list(request):
+    #get all profile
+    #serialize them return
+    #return json
+    if request.method == 'GET':
+        profile = Profile.objects.all()
+        serializer = ProfileSerializer(profile, many=True)
+        return JsonResponse({'profile':serializer.data})
+
+    if request.method == 'POST':
+        serializer = ProfileSerializer(data = request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201.CREATED)
+        
