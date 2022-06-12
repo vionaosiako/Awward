@@ -3,6 +3,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -15,5 +16,6 @@ urlpatterns = [
     path('project', views.project_list, name='project'),
     path('addProject', views.newProject, name='addProject'),
     
-    
 ]
+
+urlpatterns=format_suffix_patterns(urlpatterns)

@@ -16,36 +16,48 @@
                 <div class="col-lg-6">
                     <div class="card-body">
                         <div style="display: flex; justify-content: space-between;">
-                            <p><b>{{user.username}}</b></p>
-                            <a href="{% url 'profileUpdates' %}" class="btn btn-outline-secondary">Edit Profile</a>
-                            <p><img src="https://cdn3.iconfinder.com/data/icons/user-interface-798/32/User_interface_setting_gear_interface_ui_multimedia-128.png" alt="" style="viewBox="0 0 24 24"; width="30";" alt=""></p>
+                            <p><b>Username:</b> {{user.username}}</p>
+                            <a href="{% url 'profileUpdates' %}" class="btn bg-info">Edit Profile</a>
                         </div>
-                        <div style="display: flex; justify-content:space-between;">
-                            <div>
-                                <p>{{images.count}}Post</p>
-                            </div>
-                            <div>
-                                <p>followers</p>
-                            </div>
-                            <div>
-                                <p>following</p>
-                            </div>
+                        <div>                            
+                            <p><b>Post Posted: </b>{{projects.count}}</p>
                         </div>
                         <div>
-                            <p><b>{{profile.fullname}}</b></p>
+                            <p><b><b>Fullname: </b>{{profile.fullname}}</b></p>
+                            <h5>Bio</h5>
                             <p>{{profile.bio}}</p>
                         </div>                        
                     </div>
                 </div>
                 <div>
-                    {%for image in images%}
-                    <li class="list-group-item" ><img src="{{image.image.url}}" alt="" style="width: 100%;"></li>
-                        <img src="{{ posts.image.url}}" alt="">
-                    {%endfor%}
-                </div>
                 {% endif %}
             </div>
         </div>
+    </div>
+</div>
+
+<div class="projectsAvailable">
+    <h1 class="text-center">Projects Posted by : {{user.username}}</h1>
+    <div class="row">
+        {%for project in projects%}
+        <div class="col-md-4 project">
+            <div class="card mt-2 cardProject" style="width: 100%;">
+                <img src="{{project.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{project.title}}</h5>
+                    <p class="card-text">{{project.description}}</p>
+                    <p class="card-text"><b>Posted on: </b>{{project.date_posted}}</p>
+                    <div class="styleList">
+                        <ul class="btnProject">
+                            <li><a href="{{project.project_url}}" class="btn btn-info">Project Link</a></li>
+                            <li><a href="#" class="btn btn-info">Project Rating</a></li>
+                        </ul>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {%endfor%}
     </div>
 </div>
 

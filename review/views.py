@@ -61,8 +61,8 @@ def profileUpdates(request):
 @login_required(login_url='loginPage')
 def profilePage(request,user_id):
         profile=Profile.objects.get(id=user_id)
-        # images = request.user.profile.images.all()
-        contex = {'profile':profile}
+        projects = request.user.profile.projects.all()
+        contex = {'profile':profile, 'projects':projects}
         return render(request, 'profile.html', contex)
 
 @login_required(login_url='loginPage')
@@ -79,7 +79,7 @@ def profile_list(request):
     if request.method == 'GET':
         profile = Profile.objects.all()
         serializer = ProfileSerializer(profile, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     if request.method == 'POST':
         serializer = ProfileSerializer(data = request.data)
@@ -93,7 +93,7 @@ def project_list(request):
     if request.method == 'GET':
         project = Project.objects.all()
         serializer = ProjectSerializer(project, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
 
     if request.method == 'POST':
         serializer = ProjectSerializer(data = request.data)
@@ -115,6 +115,5 @@ def newProject(request):
             return redirect('index')
         else:
             form=ProjectForm()
-    context={'form':form}
-    return render(request, 'addProject.html',context)
-    
+
+    return render(request, 'addProject.html',{'form':ProjectForm})
