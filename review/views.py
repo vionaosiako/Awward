@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
-from .forms import  CreateUserForm,ProfileForm
+from .forms import  CreateUserForm,ProfileForm,ProjectForm
 from .models import Profile,Project
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -104,6 +104,17 @@ def project_list(request):
         
 @login_required(login_url='loginPage')
 def newProject(request):
-    context={}
+    user = Profile.objects.get(user=request.user)
+    if request.method == "POST":
+        form=ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.save(commit=False)
+            data.profile = user
+            data.user=request.user.profile
+            data.save()
+            return redirect('index')
+        else:
+            form=ProjectForm()
+    context={'form':form}
     return render(request, 'addProject.html',context)
     

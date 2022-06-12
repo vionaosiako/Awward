@@ -24,10 +24,15 @@ body{
     list-style: none;
 }
 
+.projectsAvailable{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 .project{
     display: grid;
     /* grid-template-columns: repeat(3,1fr); */
     gap: 1rem;
+    
 }
 
 .card{
