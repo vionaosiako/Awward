@@ -19,24 +19,26 @@
 </div>
 <div class="project">
     <h1 class="text-center">Available Projects</h1>
-    {%for project in projects%}
-    <div class="col-md-4">
-        <div class="card" style="width: 100%;">
-            <img src="{{project.image.url}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{project.title}}</h5>
-                <p class="card-text">{{project.description}}</p>
-                <p class="card-text"><b>Posted on: </b>{{project.date_posted}}</p>
-                <div class="styleList">
-                    <ul class="btnProject">
-                        <li><a href="{{project.project_url}}" class="btn btn-primary">Project Link</a></li>
-                        <li><a href="#" class="btn btn-primary">Rate Project</a></li>
-                    </ul>                    
+    <div class="row">
+        {%for project in projects%}
+        <div class="col-md-4 project">
+            <div class="card mt-2 cardProject" style="width: 100%;">
+                <img src="{{project.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{project.title}}</h5>
+                    <p class="card-text">{{project.description}}</p>
+                    <p class="card-text"><b>Posted on: </b>{{project.date_posted}}</p>
+                    <div class="styleList">
+                        <ul class="btnProject">
+                            <li><a href="{{project.project_url}}" class="btn btn-primary">Project Link</a></li>
+                            <li><a href="#" class="btn btn-primary">Project Rating</a></li>
+                        </ul>                    
+                    </div>
                 </div>
             </div>
         </div>
+        
+        {%endfor%}
     </div>
-    
-    {%endfor%}
 </div>
 {%endblock%}

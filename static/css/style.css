@@ -9,6 +9,7 @@ body{
 }
 
 .aboutUs{
+    margin-top: 30px;
     padding: 30px;
     background-color: #f1f8f8;
 }
@@ -21,4 +22,19 @@ body{
 
 .styleList ul{
     list-style: none;
+}
+
+.project{
+    display: grid;
+    /* grid-template-columns: repeat(3,1fr); */
+    gap: 1rem;
+}
+
+.card{
+    border-radius: 20px;
+    
+}
+
+.cardProject{
+    background-color: #f1f8f8;
 }
