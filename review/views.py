@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
 from .forms import  CreateUserForm,ProfileForm
-from .models import Profile
+from .models import Profile,Project
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -68,7 +68,8 @@ def profilePage(request,user_id):
 
 @login_required(login_url='loginPage')
 def index(request):
-    context={}
+    projects=Project.objects.all()
+    context={'projects':projects}
     return render(request, 'index.html',context)
 
 @api_view (['GET','POST'])

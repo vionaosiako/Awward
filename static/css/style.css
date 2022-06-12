@@ -12,3 +12,13 @@ body{
     padding: 30px;
     background-color: #f1f8f8;
 }
+
+.btnProject{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.styleList ul{
+    list-style: none;
+}

@@ -17,7 +17,26 @@
             </ul>
     These criteria can be reviewed on a scale of 1-10 and the average score is taken. A user will view posted projects and their details. He or she will also be able to search for projects and view projects overall score. Each user will have a profile since its mandatory to sign in before rating an application.</p>
 </div>
-<div class="contactUs">
-    <h1 class="text-center">Contact Us</h1>
+<div class="project">
+    <h1 class="text-center">Available Projects</h1>
+    {%for project in projects%}
+    <div class="col-md-4">
+        <div class="card" style="width: 100%;">
+            <img src="{{project.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{project.title}}</h5>
+                <p class="card-text">{{project.description}}</p>
+                <p class="card-text"><b>Posted on: </b>{{project.date_posted}}</p>
+                <div class="styleList">
+                    <ul class="btnProject">
+                        <li><a href="{{project.project_url}}" class="btn btn-primary">Project Link</a></li>
+                        <li><a href="#" class="btn btn-primary">Rate Project</a></li>
+                    </ul>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {%endfor%}
 </div>
 {%endblock%}
