@@ -71,7 +71,7 @@ def index(request):
     context={}
     return render(request, 'index.html',context)
 
-# @api_view (['GET','POST'])
+@api_view (['GET','POST'])
 def profile_list(request):
     #get all profile
     #serialize them return
@@ -79,7 +79,7 @@ def profile_list(request):
     if request.method == 'GET':
         profile = Profile.objects.all()
         serializer = ProfileSerializer(profile, many=True)
-        return JsonResponse({'profile':serializer.data})
+        return JsonResponse(serializer.data, safe=False)
 
     if request.method == 'POST':
         serializer = ProfileSerializer(data = request.data)
