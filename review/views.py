@@ -101,3 +101,9 @@ def project_list(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status.HTTP_201.CREATED)
+        
+@login_required(login_url='loginPage')
+def newProject(request):
+    context={}
+    return render(request, 'addProject.html',context)
+    
