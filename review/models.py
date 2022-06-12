@@ -28,3 +28,11 @@ class Profile(models.Model):
         instance.profile.save()
     def saveProfile(self):
         self.user()
+        
+class Project(models.Model):
+    title = models.CharField(max_length=100)
+    image = CloudinaryField('image')
+    description=models.CharField(max_length=100)
+    project_url = models.TextField()
+    date_posted = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
