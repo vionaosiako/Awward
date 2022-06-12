@@ -8,11 +8,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 from django.http import JsonResponse
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer,ProjectSerializer
 from rest_framework.decorators import api_view
 from rest_framework .response import Response
 from rest_framework import status
-from rest_framework import viewsets
 
 # Create your views here.
 def registerPage(request):
@@ -89,3 +88,16 @@ def profile_list(request):
             serializer.save()
             return Response(serializer.data, status.HTTP_201.CREATED)
         
+@api_view (['GET','POST'])
+def project_list(request):
+    if request.method == 'GET':
+        project = Project.objects.all()
+        serializer = ProjectSerializer(project, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    if request.method == 'POST':
+        serializer = ProjectSerializer(data = request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status.HTTP_201.CREATED)

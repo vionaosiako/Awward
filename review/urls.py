@@ -12,6 +12,7 @@ urlpatterns = [
     path('profilePage/<int:user_id>', views.profilePage, name='profilePage'),
     path('profileUpdates', views.profileUpdates, name='profileUpdates'),
     path('profile', views.profile_list, name='profile'),
+    path('project', views.project_list, name='project'),
     
     
 ]
