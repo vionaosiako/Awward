@@ -38,6 +38,11 @@ class Project(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='projects')
     
+    @classmethod
+    def search_by_title(cls,search_term):
+        title = cls.objects.filter(title__icontains=search_term).all()
+        return title
+    
     def __str__(self):
         return self.title
     class Meta:

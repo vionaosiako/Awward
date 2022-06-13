@@ -1,0 +1,34 @@
+{%extends 'base.html'%} 
+{% block content %}
+<div class="container">
+  <div class="row">
+    {% if projects%}
+      <h2>Found {{ projects|length }} of searched term {{message}}</h2>
+    {% else %}
+      <h2> Found 0 project for the search term {{message}}</h2>
+    {% endif %}
+  </div>
+  <div class="row">
+    {%for project in projects%}
+    <div class="col-md-6 project">
+        <div class="card mt-2 cardProject" style="width: 100%;">
+            <img src="{{project.image.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{project.title}}</h5>
+                <p class="card-text">{{project.description}}</p>
+                <p class="card-text"><b>Posted on: </b>{{project.date_posted}}</p>
+                <p class="card-text"><b>Contact owner: </b>{{project.user.phone_number}}</p>
+                <div class="styleList">
+                    <ul class="btnProject">
+                        <li><a href="{{project.project_url}}" class="btn btn-info">Project Link</a></li>
+                        <li><a href="#" class="btn btn-info">Project Rating</a></li>
+                    </ul>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {%endfor%}
+</div>
+</div>
+{% endblock %}
