@@ -58,6 +58,9 @@ Then run server with the above command
 * HTML
 * Heroku
 
+## Known Bugs
+* There are no known bugs
+
 ## Contact Information
 * Email : viona Anyona Osiako
 * Whatsapp : +254703616854
