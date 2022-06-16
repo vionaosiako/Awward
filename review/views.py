@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
-from .forms import  CreateUserForm,ProfileForm,ProjectForm
-from .models import Profile,Project
+from .forms import  CreateUserForm,ProfileForm,ProjectForm,RatingForm
+from .models import Profile,Project,Rating
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 from django.http import JsonResponse
 from .serializers import ProfileSerializer,ProjectSerializer
@@ -130,3 +131,102 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'search.html',{"message":message})
+    
+
+def project(request, project):
+    user = Profile.objects.get(user=request.user)
+    project = Project.objects.get(title=project)
+    ratings = Rating.objects.filter(user=request.user.id, project=project).first()
+    rating_status = None
+    if ratings is None:
+        rating_status = False
+    else:
+        rating_status = True
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.user = request.user.profile
+            rate.project = project
+            rate.save()
+            project_ratings = Rating.objects.filter(project=project)
+
+            design_ratings = [d.design for d in project_ratings]
+            design_average = sum(design_ratings) / len(design_ratings)
+
+            usability_ratings = [us.usability for us in project_ratings]
+            usability_average = sum(usability_ratings) / len(usability_ratings)
+
+            content_ratings = [content.content for content in project_ratings]
+            content_average = sum(content_ratings) / len(content_ratings)
+
+            score = (design_average + usability_average + content_average) / 3
+            print(score)
+            rate.design_average = round(design_average, 2)
+            rate.usability_average = round(usability_average, 2)
+            rate.content_average = round(content_average, 2)
+            rate.score = round(score, 2)
+            rate.save()
+            return HttpResponseRedirect(request.path_info)
+    else:
+        form = RatingForm()
+    context = {
+        'ratings':ratings,
+        'form': RatingForm,
+        'project': project,
+        'rating_form': form,
+        'rating_status': rating_status
+
+    }
+    return render(request, 'projectInfo.html', context)
+
+    # def rating(request, project_id):
+    #     user = Profile.objects.get(user=request.user)
+    #     projects = Project.objects.get(id=project_id)
+    #     ratings = Rating.objects.filter(user=request.user.id, project=project_id).first()
+    #     rating_status=None
+    #     if ratings is None:
+    #         rating_status=False
+    #     else:
+    #         rating_status=True
+    #     if request.method=='POST':
+    #         form=RatingForm(request.POST)
+    #         if form.is_valid():
+    #             rate=form.save(commit=False)
+    #             rate.user=request.user
+    #             rate.project=projects
+    #             rate.save()
+    #             project_rating=Rating.objects.filter(project=Project)
+    #             design_rating=[d.design for d in project_rating]
+    #             content_rating=[c.content for c in project_rating]
+    #             userbility_rating=[u.userbility for u in project_rating]
+    #             average=(design_rating+content_rating+userbility_rating)/3
+    #             rate.save()
+    #             return HttpResponseRedirect(request.path_info)
+    #     else:
+    #         form=RatingForm()
+    #     return render(request, 'projectInfo.html',{'form':RatingForm, 'projects':projects, 'rating_status':rating_status})
+# def rating(request,project_id):
+#     user = Profile.objects.get(user=request.user)
+#     if request.method == "POST":
+#         form=RatingForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             data = form.save(commit=False)
+#             # data.project=Project.objects.get(id=project_id)
+#             data.profile = user
+#             data.user=request.user.profile
+#             data.save()
+#             return redirect('index')
+#         else:
+#             form=ProjectForm()
+    # projects = Project.objects.get(id=project_id)
+    # current_user = request.user
+    # if request.method == 'POST':
+    #     form = RatingForm(request.POST,request.FILES,instance=projects)
+    #     if form.is_valid:
+    #         form.save(commit=False)
+    #         form.user=request.user.profile
+    #         form.project=Project.objects.get(id=project_id)
+    #         form.save()
+    #         return redirect('index')
+    #return render(request, 'projectInfo.html',{'form':RatingForm})

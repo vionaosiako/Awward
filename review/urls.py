@@ -16,6 +16,7 @@ urlpatterns = [
     path('project', views.project_list, name='project'),
     path('addProject', views.newProject, name='addProject'),
     path('search', views.search_results, name='search'),
+    path('project/<project>', views.project, name='project'),
     
 ]
 

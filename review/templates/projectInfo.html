@@ -1,0 +1,63 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block content %}
+{{block.super}}
+<div class="container mt-2">
+
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{project.image.url}}" class="card-img-top" alt="...">
+            <br>
+            <h5 class="card-title"><strong>{{project.title|title}}</strong>
+            <a href="{{project.project_url}}" style="float:right" class="btn btn-sm btn-info mr-4"> Live Link </a></h5>
+            
+            
+            <p>{{ project.description }}</p>
+            
+        </div>
+        
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <h3 class="D-block mx-auto">Ratings Scores</h3>
+                    {% for rating in project.ratings.all %}
+                    {% if forloop.counter is project.ratings.all.count %}
+                    <a class="btn btn-warning btn-sm m-2" ><h5>{{ rating.score }}</h5>
+                        <span class="sc">Average Score</span>
+                    </a>
+                    <a class="btn btn-outline-success btn-sm m-2" ><h5>{{ rating.design_average }}</h5>
+                        <span class="sc">Design Average</span>
+                    </a>
+                    <a class="btn btn-outline-primary btn-sm m-2" id="u"><h5>{{ rating.usability_average }}</h5>
+                        <span class="sc">Usability Average</span>
+                    </a>
+                    <a class="btn btn-outline-danger btn-sm m-2" id="c"><h5>{{ rating.content_average }}</h5>
+                        <span class="sc">Content Average</span>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+
+            {% if rating_status %}
+            <h5>You have already voted</h5>
+            {% else %}
+            {% if user.is_authenticated %}
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-sm btn-info">Rate</button>
+            </form>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+
+
+</div>
+{%endblock%}
+

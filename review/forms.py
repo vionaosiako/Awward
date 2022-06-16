@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm,widgets
 from django import forms
-from .models import Profile,Project
+from .models import Profile,Project,Rating
 from django.contrib.auth.models import User
 from django.core.files.images import get_image_dimensions
 
@@ -28,4 +28,12 @@ class ProjectForm(ModelForm):
             'title': forms.TextInput(attrs={'class':'form-control'}),
             'description': forms.Textarea(attrs={'class':'form-control'}),
             'project_url': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class RatingForm(ModelForm):
+	class Meta:
+		model = Rating
+		exclude = ['user', 'project','score','design_average','usability_average','content_average']
+		widgets = {
+            
         }
